@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/cygdrive/c/xampp/htdocs/Metody Numeryczne/Zadanie 06/main.cpp
+iostream
+-
+stdio.h
+-
+gsl/gsl_poly.h
+-
+

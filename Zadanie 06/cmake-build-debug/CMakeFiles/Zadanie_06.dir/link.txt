@@ -1,0 +1,1 @@
+/usr/bin/c++.exe -g  -Wl,--enable-auto-import CMakeFiles/Zadanie_06.dir/main.cpp.o  -o Zadanie_06.exe -Wl,--out-implib,libZadanie_06.dll.a -Wl,--major-image-version,0,--minor-image-version,0 /usr/lib/libgsl.dll.a /usr/lib/libgslcblas.dll.a 

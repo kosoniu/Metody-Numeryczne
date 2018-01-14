@@ -1,0 +1,3 @@
+/cygdrive/c/xampp/htdocs/Metody Numeryczne/Zadanie 06/cmake-build-debug/CMakeFiles/edit_cache.dir
+/cygdrive/c/xampp/htdocs/Metody Numeryczne/Zadanie 06/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/cygdrive/c/xampp/htdocs/Metody Numeryczne/Zadanie 06/cmake-build-debug/CMakeFiles/Zadanie_06.dir
