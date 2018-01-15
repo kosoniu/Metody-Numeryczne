@@ -4,7 +4,10 @@
 #include <vector>
 #include <complex>
 
+#define epsilon 0.0000001
+
 using namespace std;
+
 
 complex<double> HornerMethod(vector<complex<double>> a, complex<double> x){
 
@@ -34,8 +37,8 @@ return newMultimian;
 
 vector<complex<double>> Derivative(vector<complex<double>> multimian){
     vector<complex<double>> a;
-    complex<double> n = multimian.size();
     int k = multimian.size();
+    complex<double> n((double)k);
     if(multimian.size() == 1){
         a.push_back(multimian[0]);
         return a;
@@ -48,58 +51,38 @@ vector<complex<double>> Derivative(vector<complex<double>> multimian){
     return a;
 }
 
-complex<double> LaguerreMethod(vector<complex<double>> a, complex<double> x){
-    complex<double> z;
+complex<double> LaguerreMethod(vector<complex<double>> &a, complex<double> x){
+    complex<double> z, x0;
     vector<complex<double>> firstDerivative;
     vector<complex<double>> secondDerivative;
-    complex<double> n = a.size() - 1.0;
+    int f = a.size() - 1;
+    complex<double> n(a.size() - 1);
     complex<double> upper, lowerPlus, lowerMinus;
     firstDerivative = Derivative(a);
     secondDerivative = Derivative(firstDerivative);
-    double epsilon = 0.0000001;
 
 
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < 100000; i++){
         complex<double> value = HornerMethod(a, x);
 
         if(abs(value) < epsilon) break;
 
-        // complex<double> firstDerivativeValue = HornerMethod(firstDerivative, x);
-        // complex<double> secondDerivativeValue = HornerMethod(secondDerivative, x);
-        //
-        // complex<double> G = firstDerivativeValue / value;
-        // complex<double> H = G*G - secondDerivativeValue - value;
-        // complex<double> R = sqrt((n - 1.0) * (H * n - G*G));
-        //
-        // complex<double> D1 = G + R;
-        // complex<double> D2 = G - R;
-        //
-        // complex<double> M;
-        //
-        // if(abs(D1) > abs(D2)) M = D1;
-        // else M = D2;
-
-        // complex<double> x0 = n / M;
-
+        complex<double> firstDerivativeValue = HornerMethod(firstDerivative, x);
+        complex<double> secondDerivativeValue = HornerMethod(secondDerivative, x);
 
         upper = (n*HornerMethod(a, x));
-        lowerPlus = (HornerMethod(firstDerivative, x) + sqrt((n.real() - 1.0)*((n.real() - 1.0)*HornerMethod(firstDerivative, x)*HornerMethod(firstDerivative, x) - n*HornerMethod(a, x)*HornerMethod(secondDerivative, x))));
-        lowerMinus = (HornerMethod(firstDerivative, x) - sqrt((n.real() - 1.0)*((n.real() - 1.0)*HornerMethod(firstDerivative, x)*HornerMethod(firstDerivative, x) - n*HornerMethod(a, x)*HornerMethod(secondDerivative, x))));
+        lowerPlus = firstDerivativeValue + sqrt((n - 1.0)*((n - 1.0)*firstDerivativeValue*firstDerivativeValue - n*value*secondDerivativeValue));
+        lowerMinus = (firstDerivativeValue - sqrt((n - 1.0)*((n - 1.0)*firstDerivativeValue*firstDerivativeValue - n*value*secondDerivativeValue)));
 
         if(abs(lowerPlus) > abs(lowerMinus)){
-            z = x - (upper / lowerPlus);
-            // cout << lowerPlus << "<- " << lowerMinus << endl;
+            x0 = (upper / lowerPlus);
         }else{
-             z = x - (upper / lowerMinus);
-             // cout << lowerPlus << " ->" << lowerMinus << endl;
+             x0 = (upper / lowerMinus);
          }
 
-         complex<double> k = n / z;
-
-        x -= k;
-        if(abs(k) < epsilon) break;
+        x -= x0;
+        if(abs(x0) < epsilon) break;
     }
-
 
     return x;
 }
@@ -113,13 +96,9 @@ vector<complex<double>> FindRoots(vector<complex<double>> a, complex<double> x0)
     z = x0;
 
     for( int i = 0; i < a.size() - 1; i++){
-        for (int i = 0; i < activeVector.size(); i++) {
-            cout << activeVector[i] << " ";
-        } cout << endl;
         z = LaguerreMethod(activeVector, x0);
         value = LaguerreMethod(a, z);
         roots.push_back(value);
-        cout << "z' = " << z << ", z = " << value << endl << endl;
         tmpVector = deflation(value, activeVector);
         activeVector = tmpVector;
     }
@@ -127,25 +106,56 @@ vector<complex<double>> FindRoots(vector<complex<double>> a, complex<double> x0)
     return roots;
 }
 
+void DisplayMZ(vector<complex<double>> roots){
+    for (int i = 0; i < roots.size(); i++) {
+        if(abs(roots[i].real()) < epsilon*1000)
+            roots[i].real(0);
+        if(abs(roots[i].imag()) < epsilon*1000)
+            roots[i].imag(0);
+        cout << roots[i] << " ";
+    }cout << endl << endl;
+}
+
 
 
 int main(){
+
     //243z^7 − 486z^6 + 783z^5 − 990z^4 + 558z^3 − 28z^2 − 72z + 16 = 0
 
-    // vector<complex<double>> a = {243.0, -486.0, 783.0, -990.0, 558.0, -28.0, -72.0, 16};
-    vector<complex<double>> a = {1.0, 12.0, 58.0, 134.0, 146.0, 60.0};
-    // vector<complex<double>> b = {1.0, 8.82467, 27.6289, 25.5325};
+    vector<complex<double>> a1 = {243.0, -486.0, 783.0, -990.0, 558.0, -28.0, -72.0, 16.0};
+    vector<complex<double>> a2 = {1.0, 1.0, 3.0, 2.0, -1.0, -3.0, -11.0, -8.0, -12.0, -4.0, -4.0};
+    vector<complex<double>> a3 = {1.0, {0.0, 1.0}, -1.0, {0.0, -1.0}, 1.0};
+    // vector<complex<double>> a = {1.0, 12.0, 58.0, 134.0, 146.0, 60.0};
     complex<double> z, value;
 
-    vector<complex<double>> tmpVector;
+    vector<complex<double>> roots;
 
-    complex<double> x = -3.0;
 
-    tmpVector = FindRoots(a, x);
-    for (int i = 0; i < tmpVector.size(); i++) {
-        cout << tmpVector[i] << " ";
-    }
+    complex<double> x1 = 1.0;
+    complex<double> x2 = -3.0;
+    complex<double> x3 = -1.0;
+
+    cout << "Równanie dla którego liczymy:\n";
+    for(int i = 0; i < a1.size(); i++)
+        cout << a1[i] << " ";
     cout << endl;
+    roots = FindRoots(a1, x1);
+    DisplayMZ(roots);
+
+    cout << "Równanie dla którego liczymy:\n";
+    for(int i = 0; i < a2.size(); i++)
+        cout << a2[i] << " ";
+    cout << endl;
+    roots = FindRoots(a2, x2);
+    DisplayMZ(roots);
+
+    cout << "Równanie dla którego liczymy:\n";
+    for(int i = 0; i < a3.size(); i++)
+        cout << a3[i] << " ";
+    cout << endl;
+    roots = FindRoots(a3, x3);
+    DisplayMZ(roots);
+
 
     return 0;
 }
