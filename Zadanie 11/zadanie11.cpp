@@ -33,7 +33,7 @@ double secantMethod(double x1, double x2){
       break;
     }
 
-    if(abs(x3 - tmpX3) <= epsilon) break;
+    if((abs(x3 - tmpX3) < epsilon) && f(x3) < epsilon) break;
     cout << "W x3 = "<< x3 << ", f(x3) = " << f3 << endl;
     x2 = x1;
     x1 = x3;
@@ -107,6 +107,14 @@ int main()
   double x1 = fRand(0,1);
   double x2 = fRand(0,1);
   double x3 = fRand(0,1);
+  if(x2 < x1 || x3 < x2){
+      while((x1 > x2) && (x2 > x3)){
+          x2 = fRand(0,1);
+          x1 = fRand(0,1);
+          x3 = fRand(0,1);
+      }
+  }
+
 
   // double x1 = -.96;
   // double x2 = -.76;
