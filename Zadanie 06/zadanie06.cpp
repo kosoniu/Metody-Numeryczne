@@ -34,6 +34,28 @@ vector<complex<double>> deflation(complex<double> root, vector<complex<double>> 
 return newMultimian;
 }
 
+vector<complex<double>> Delta(vector<complex<double>> equation){
+    complex<double> x1,x2,b,c,a,delta;
+    complex<double> four = 4.0;
+    complex<double> two = 2.0;
+
+    vector<complex<double>> roots;
+    a = equation[0];
+    b = equation[1];
+    c = equation[2];
+
+    delta = (b*b) - four*(a*c);
+    complex<double> up1 = -b + sqrt(delta);
+    complex<double> up2 = -b - sqrt(delta);
+
+    x1 = up1 / (two*a);
+    x2 = up2 / (two*a);
+    roots.push_back(x1);
+    roots.push_back(x2);
+
+    return roots;
+}
+
 
 vector<complex<double>> Derivative(vector<complex<double>> multimian){
     vector<complex<double>> a;
@@ -95,13 +117,18 @@ vector<complex<double>> FindRoots(vector<complex<double>> a, complex<double> x0)
     complex<double> z, value;
     z = x0;
 
-    for( int i = 0; i < a.size() - 1; i++){
+    for( int i = 0; i < a.size() - 3; i++){
         z = LaguerreMethod(activeVector, x0);
         value = LaguerreMethod(a, z);
         roots.push_back(value);
         tmpVector = deflation(value, activeVector);
         activeVector = tmpVector;
     }
+
+    tmpVector = Delta(activeVector);
+    roots.push_back(tmpVector[0]);
+    roots.push_back(tmpVector[1]);
+
 
     return roots;
 }
@@ -125,6 +152,8 @@ int main(){
     vector<complex<double>> a1 = {243.0, -486.0, 783.0, -990.0, 558.0, -28.0, -72.0, 16.0};
     vector<complex<double>> a2 = {1.0, 1.0, 3.0, 2.0, -1.0, -3.0, -11.0, -8.0, -12.0, -4.0, -4.0};
     vector<complex<double>> a3 = {1.0, {0.0, 1.0}, -1.0, {0.0, -1.0}, 1.0};
+    vector<complex<double>> a = {2.0, -3.0, 10.0};
+
     // vector<complex<double>> a = {1.0, 12.0, 58.0, 134.0, 146.0, 60.0};
     complex<double> z, value;
 
