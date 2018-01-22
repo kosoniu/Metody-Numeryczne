@@ -1,0 +1,3 @@
+/cygdrive/c/xampp/htdocs/Metody Numeryczne/Zadanie 12/GSL/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/cygdrive/c/xampp/htdocs/Metody Numeryczne/Zadanie 12/GSL/cmake-build-debug/CMakeFiles/edit_cache.dir
+/cygdrive/c/xampp/htdocs/Metody Numeryczne/Zadanie 12/GSL/cmake-build-debug/CMakeFiles/GSL.dir

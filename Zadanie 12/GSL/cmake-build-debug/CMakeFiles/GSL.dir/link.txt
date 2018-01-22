@@ -1,0 +1,1 @@
+/usr/bin/c++.exe -g  -Wl,--enable-auto-import CMakeFiles/GSL.dir/main.cpp.o  -o GSL.exe -Wl,--out-implib,libGSL.dll.a -Wl,--major-image-version,0,--minor-image-version,0 /usr/lib/libgsl.dll.a /usr/lib/libgslcblas.dll.a 

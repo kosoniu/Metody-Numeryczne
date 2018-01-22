@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/cygdrive/c/xampp/htdocs/Metody Numeryczne/Zadanie 12/GSL/main.cpp
+iostream
+-
+gsl/gsl_errno.h
+-
+gsl/gsl_math.h
+-
+gsl/gsl_min.h
+-
+
